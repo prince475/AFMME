@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import Login from './components/Login';
@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false); // Stop loading once auth state is determined
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -23,12 +23,10 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
-        <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
+      <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
+    </Routes>
   );
 }
 
